@@ -1,3 +1,4 @@
+
 # ZestMart
 
 ZestMart is a production-oriented role-based online mart system with OTP registration for students, JWT authentication, MongoDB persistence, admin-managed products, and delivery order handling.
@@ -111,3 +112,6 @@ Required Twilio settings for real SMS delivery:
 - [Architecture](docs/architecture.md)
 - [API Docs](docs/api_docs.md)
 - [Database Schema](docs/database_schema.md)
+=======
+# ZestMart
+>>>>>>> 2036df5d6be2cd4e6a81fa97365c940d2956e936
