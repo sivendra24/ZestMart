@@ -1,0 +1,12 @@
+.git
+.gitignore
+.venv
+__pycache__
+.pytest_cache
+tests
+server.stdout.log
+server.stderr.log
+*.log
+.env
+.env.production
+deploy/certs

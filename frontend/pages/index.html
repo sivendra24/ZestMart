@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZestMart | Secure Access</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <main class="page-shell auth-shell">
+        <section class="hero-panel">
+            <p class="eyebrow">Campus Commerce, Properly Structured</p>
+            <h1 class="hero-title">ZestMart</h1>
+            <p class="hero-copy">
+                OTP-first student onboarding, role-based dashboards, Mongo-backed order tracking,
+                and clean access boundaries for admin and delivery operations.
+            </p>
+            <div class="stat-grid" style="margin-top: 1.4rem;">
+                <article class="stat-card">
+                    <span class="stat-label">Onboarding</span>
+                    <strong class="stat-value">OTP</strong>
+                    <span class="stat-meta">Student sign-up stays verified before account creation.</span>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Dashboards</span>
+                    <strong class="stat-value">3 Roles</strong>
+                    <span class="stat-meta">Student, delivery, and admin workflows stay separated and clear.</span>
+                </article>
+            </div>
+            <div class="feature-list">
+                <article class="feature-item">
+                    <strong>Student flow</strong>
+                    <p class="section-copy">Register using mobile OTP, browse products, and place orders securely.</p>
+                </article>
+                <article class="feature-item">
+                    <strong>Delivery flow</strong>
+                    <p class="section-copy">Accept pending orders, track assignments, and mark deliveries confidently.</p>
+                </article>
+                <article class="feature-item">
+                    <strong>Admin flow</strong>
+                    <p class="section-copy">Control catalog inventory, upload images, and monitor operational status.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="auth-panel card">
+            <div class="tabs">
+                <button type="button" class="tab is-active" data-auth-tab="student-login">Student Login</button>
+                <button type="button" class="tab" data-auth-tab="student-register">Student Register</button>
+                <button type="button" class="tab" data-auth-tab="staff-login">Staff Login</button>
+            </div>
+
+            <div id="page-status" class="alert hidden"></div>
+
+            <form id="student-login-form" class="auth-form" data-auth-view="student-login">
+                <label class="inline-label">
+                    Mobile Number
+                    <input type="tel" id="student-login-phone" placeholder="Enter registered phone number" required>
+                </label>
+                <label class="inline-label">
+                    Password
+                    <input type="password" id="student-login-password" placeholder="Enter password" required>
+                </label>
+                <button type="submit">Login as Student</button>
+            </form>
+
+            <form id="student-register-form" class="auth-form hidden" data-auth-view="student-register">
+                <div id="otp-status" class="alert hidden"></div>
+                <div class="row-2">
+                    <label class="inline-label">
+                        Full Name
+                        <input type="text" id="register-name" placeholder="Enter full name" required>
+                    </label>
+                    <label class="inline-label">
+                        Mobile Number
+                        <input type="tel" id="register-phone" placeholder="Enter mobile number" required>
+                    </label>
+                </div>
+                <label class="inline-label">
+                    Password
+                    <input type="password" id="register-password" placeholder="Minimum 8 characters" required>
+                </label>
+                <label class="inline-label">
+                    Delivery Address
+                    <textarea id="register-address" rows="3" placeholder="Enter hostel, room number, block, or full delivery address" required></textarea>
+                </label>
+                <div class="row-2">
+                    <button type="button" id="send-otp-button" class="secondary-button">Send OTP</button>
+                    <div></div>
+                </div>
+                <div class="row-2">
+                    <label class="inline-label">
+                        OTP
+                        <input type="text" id="register-otp" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit OTP">
+                    </label>
+                    <div class="button-row" style="align-self: end;">
+                        <button type="button" id="verify-otp-button" class="ghost-button">Verify OTP</button>
+                    </div>
+                </div>
+                <button type="submit">Create Student Account</button>
+            </form>
+
+            <form id="staff-login-form" class="auth-form hidden" data-auth-view="staff-login">
+                <label class="inline-label">
+                    User ID
+                    <input type="text" id="staff-login-user-id" placeholder="Enter admin or delivery user ID" required>
+                </label>
+                <label class="inline-label">
+                    Password
+                    <input type="password" id="staff-login-password" placeholder="Enter password" required>
+                </label>
+                <button type="submit">Login as Staff</button>
+            </form>
+
+            <p class="footer-note">
+                Real SMS delivery requires Twilio settings in the backend `.env`; otherwise mock OTP mode can be used for local testing.
+            </p>
+        </section>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

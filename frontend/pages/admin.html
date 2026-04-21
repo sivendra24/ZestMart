@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZestMart | Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">ZestMart Admin</span>
+                <span class="brand-note">Catalog control, order oversight, and secure uploads.</span>
+            </div>
+            <nav class="nav-links">
+                <a class="nav-chip" href="/student">Shopping View</a>
+                <a class="nav-chip" href="/delivery">Delivery View</a>
+            </nav>
+            <div class="topbar-actions">
+                <span class="pill"><strong id="admin-user-name">Admin</strong> <span id="admin-user-role" class="meta-text"></span></span>
+                <button type="button" class="ghost-button" data-action="logout">Logout</button>
+            </div>
+        </header>
+
+        <div id="admin-status" class="alert hidden"></div>
+
+        <main class="dashboard-grid">
+            <section class="content-card overview-panel full-span">
+                <div class="overview-layout">
+                    <div>
+                        <p class="eyebrow">Admin Operations</p>
+                        <h1 class="overview-title">Control the catalog with fewer blind spots.</h1>
+                        <p class="overview-copy">
+                            Review inventory health, keep products updated, and monitor the order pipeline from one surface.
+                        </p>
+                    </div>
+                    <div class="stat-grid">
+                        <article class="stat-card">
+                            <span class="stat-label">Catalog Size</span>
+                            <strong id="admin-stat-products" class="stat-value">0</strong>
+                            <span class="stat-meta">Products available for storefront browsing.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Low Stock</span>
+                            <strong id="admin-stat-low-stock" class="stat-value">0</strong>
+                            <span class="stat-meta">Products with fewer than 5 units left.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Pending Orders</span>
+                            <strong id="admin-stat-pending" class="stat-value">0</strong>
+                            <span class="stat-meta">Orders waiting for delivery acceptance.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Delivered</span>
+                            <strong id="admin-stat-delivered" class="stat-value">0</strong>
+                            <span class="stat-meta">Orders completed successfully.</span>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-card">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Create Product</h2>
+                        <p class="section-copy">Add new products and optionally attach an image immediately after creation.</p>
+                    </div>
+                </div>
+                <form id="product-form" class="form-grid">
+                    <div class="row-2">
+                        <label class="inline-label">
+                            Name
+                            <input type="text" id="product-name" placeholder="e.g. Citrus Juice" required>
+                        </label>
+                        <label class="inline-label">
+                            Category
+                            <input type="text" id="product-category" placeholder="e.g. Beverages" required>
+                        </label>
+                    </div>
+                    <div class="row-2">
+                        <label class="inline-label">
+                            Price
+                            <input type="number" id="product-price" min="0" step="0.01" required>
+                        </label>
+                        <label class="inline-label">
+                            Stock
+                            <input type="number" id="product-stock" min="0" step="1" required>
+                        </label>
+                    </div>
+                    <label class="inline-label">
+                        Product Image
+                        <input type="file" id="product-image" accept="image/*">
+                    </label>
+                    <button type="submit">Create Product</button>
+                </form>
+            </section>
+
+            <aside class="content-card sticky-card">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Admin Notes</h2>
+                        <p class="section-copy">Pending orders are accepted by delivery personnel from their dashboard.</p>
+                    </div>
+                </div>
+                <div class="detail-list">
+                    <div class="detail-row"><span>Image Uploads</span><strong>Local Storage</strong></div>
+                    <div class="detail-row"><span>Route Access</span><strong>Admin Only</strong></div>
+                    <div class="detail-row"><span>Order Updates</span><strong>Admin + Delivery</strong></div>
+                </div>
+            </aside>
+
+            <section class="content-card full-span">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Inventory Management</h2>
+                        <p class="section-copy">Edit products inline, delete items, and replace product images.</p>
+                    </div>
+                    <button type="button" id="refresh-admin-products" class="ghost-button">Refresh</button>
+                </div>
+                <div id="admin-product-list" class="inventory-grid"></div>
+            </section>
+
+            <section class="content-card full-span">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Order Oversight</h2>
+                        <p class="section-copy">Review every order and adjust status when manual intervention is needed.</p>
+                    </div>
+                    <button type="button" id="refresh-admin-orders" class="ghost-button">Refresh</button>
+                </div>
+                <div id="admin-order-list" class="order-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZestMart | Shopping Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">ZestMart</span>
+                <span class="brand-note">Shop smarter with role-aware access.</span>
+            </div>
+            <nav id="student-nav-links" class="nav-links"></nav>
+            <div class="topbar-actions">
+                <span class="pill"><strong id="student-user-name">User</strong> <span id="student-user-role" class="meta-text"></span></span>
+                <button type="button" class="ghost-button" data-action="logout">Logout</button>
+            </div>
+        </header>
+
+        <div id="student-status" class="alert hidden"></div>
+
+        <main class="dashboard-grid">
+            <section class="content-card overview-panel full-span">
+                <div class="overview-layout">
+                    <div>
+                        <p class="eyebrow">Student Dashboard</p>
+                        <h1 class="overview-title">Welcome back, <span id="student-welcome-name">Shopper</span>.</h1>
+                        <p class="overview-copy">
+                            Browse the live catalog, keep the delivery address accurate, and track every order from checkout to doorstep.
+                        </p>
+                    </div>
+                    <div class="stat-grid">
+                        <article class="stat-card">
+                            <span class="stat-label">Products Live</span>
+                            <strong id="student-stat-products" class="stat-value">0</strong>
+                            <span class="stat-meta">Items currently visible in the catalog.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Cart Items</span>
+                            <strong id="student-stat-cart-items" class="stat-value">0</strong>
+                            <span class="stat-meta">Total quantity queued for checkout.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Cart Value</span>
+                            <strong id="student-stat-cart-value" class="stat-value">INR 0</strong>
+                            <span class="stat-meta">Live total before you place the order.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Active Orders</span>
+                            <strong id="student-stat-active-orders" class="stat-value">0</strong>
+                            <span class="stat-meta">Orders still pending or assigned.</span>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-card">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Product Catalog</h2>
+                        <p class="section-copy">Browse available products and add quantities directly to your cart.</p>
+                    </div>
+                    <button type="button" id="refresh-products-button" class="ghost-button">Refresh</button>
+                </div>
+                <div id="product-grid" class="product-grid"></div>
+            </section>
+
+            <aside class="content-card sticky-card">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Cart</h2>
+                        <p class="section-copy">Review items before placing the order.</p>
+                    </div>
+                </div>
+                <div id="cart-items" class="cart-list"></div>
+                <label class="inline-label">
+                    Delivery Address
+                    <textarea id="delivery-address" rows="4" placeholder="Enter the exact delivery address for this order"></textarea>
+                </label>
+                <div class="summary-row">
+                    <span>Total</span>
+                    <strong id="cart-total">INR 0.00</strong>
+                </div>
+                <div class="button-row">
+                    <button type="button" id="checkout-button">Place Order</button>
+                    <button type="button" id="clear-cart-button" class="ghost-button">Clear Cart</button>
+                </div>
+            </aside>
+
+            <section class="content-card full-span">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Order History</h2>
+                        <p class="section-copy">Track your pending, assigned, and delivered orders.</p>
+                    </div>
+                    <button type="button" id="refresh-orders-button" class="ghost-button">Refresh</button>
+                </div>
+                <div id="order-list" class="order-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/cart_utils.js"></script>
+    <script src="/js/student.js"></script>
+</body>
+</html>

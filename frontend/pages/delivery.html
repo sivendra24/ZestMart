@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZestMart | Delivery Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">ZestMart Delivery</span>
+                <span class="brand-note">Pick up pending orders and close the delivery loop.</span>
+            </div>
+            <nav id="delivery-nav-links" class="nav-links"></nav>
+            <div class="topbar-actions">
+                <span class="pill"><strong id="delivery-user-name">Delivery</strong> <span id="delivery-user-role" class="meta-text"></span></span>
+                <button type="button" class="ghost-button" data-action="logout">Logout</button>
+            </div>
+        </header>
+
+        <div id="delivery-status" class="alert hidden"></div>
+
+        <main class="page-stack">
+            <section class="content-card overview-panel">
+                <div class="overview-layout">
+                    <div>
+                        <p class="eyebrow">Delivery Workflow</p>
+                        <h1 class="overview-title">Move faster from pickup to proof of delivery.</h1>
+                        <p class="overview-copy">
+                            Accept pending orders, use the saved delivery addresses, and keep your assigned queue under control.
+                        </p>
+                    </div>
+                    <div class="stat-grid">
+                        <article class="stat-card">
+                            <span class="stat-label">Open Pickups</span>
+                            <strong id="delivery-stat-pending" class="stat-value">0</strong>
+                            <span class="stat-meta">Orders available to claim right now.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Assigned Now</span>
+                            <strong id="delivery-stat-assigned" class="stat-value">0</strong>
+                            <span class="stat-meta">Orders currently under your responsibility.</span>
+                        </article>
+                        <article class="stat-card">
+                            <span class="stat-label">Completed</span>
+                            <strong id="delivery-stat-completed" class="stat-value">0</strong>
+                            <span class="stat-meta">Orders already marked as delivered.</span>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <div class="split-grid">
+                <section class="content-card">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">Pending Orders</h2>
+                            <p class="section-copy">Accept open orders to assign them to yourself.</p>
+                        </div>
+                        <button type="button" id="refresh-delivery-orders" class="ghost-button">Refresh</button>
+                    </div>
+                    <div id="pending-order-list" class="order-grid"></div>
+                </section>
+
+                <section class="content-card">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">My Assigned Orders</h2>
+                            <p class="section-copy">Mark assigned orders as delivered when completed.</p>
+                        </div>
+                    </div>
+                    <div id="assigned-order-list" class="order-grid"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/delivery.js"></script>
+</body>
+</html>

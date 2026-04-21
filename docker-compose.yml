@@ -1,0 +1,52 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zestmart-app
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    depends_on:
+      - mongo
+      - redis
+    expose:
+      - "8000"
+    volumes:
+      - uploads_data:/app/backend/uploads/products
+
+  mongo:
+    image: mongo:7.0
+    container_name: zestmart-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME:-zestmart}
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: zestmart-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: zestmart-nginx
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx/zestmart.conf:/etc/nginx/conf.d/default.conf:ro
+      - uploads_data:/var/www/zestmart/uploads/products:ro
+      - ./deploy/certs:/etc/ssl/zestmart:ro
+
+volumes:
+  mongo_data:
+  redis_data:
+  uploads_data:
