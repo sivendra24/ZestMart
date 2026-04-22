@@ -1,7 +1,15 @@
 (function () {
     const config = window.ZestMartConfig;
+    const demoApi = window.ZestMartDemoApi;
 
-    async function request(path, options) {
+    async function requestViaDemo(path, options) {
+        if (!demoApi?.isEnabled()) {
+            throw new Error("Demo mode is not available.");
+        }
+        return demoApi.request(path, options || {});
+    }
+
+    function buildRequestOptions(options) {
         const {
             method = "GET",
             body,
@@ -10,6 +18,43 @@
             formData = false,
             headers = {}
         } = options || {};
+
+        return {
+            method,
+            body,
+            auth,
+            allowUnauthorized,
+            formData,
+            headers,
+        };
+    }
+
+    function shouldTryAnotherBase(response, payload) {
+        if (!response) {
+            return true;
+        }
+        if (response.status === 404) {
+            return true;
+        }
+        if (response.status === 502 || response.status === 503) {
+            return true;
+        }
+        if (!response.ok && payload?.message === "Unable to parse server response.") {
+            return true;
+        }
+        return false;
+    }
+
+    async function request(path, options) {
+        const requestOptions = buildRequestOptions(options);
+        const {
+            method,
+            body,
+            auth,
+            allowUnauthorized,
+            formData,
+            headers,
+        } = requestOptions;
 
         const requestHeaders = { ...headers };
         const fetchOptions = {
@@ -27,33 +72,71 @@
             }
         }
 
-        const response = await fetch(`${config.apiBaseUrl}${path}`, fetchOptions);
-        let payload;
-
-        try {
-            payload = await response.json();
-        } catch (_error) {
-            payload = {
-                success: false,
-                message: "Unable to parse server response.",
-                data: {}
-            };
+        if (demoApi?.isActive()) {
+            return requestViaDemo(path, requestOptions);
         }
 
-        if (!response.ok || payload.success === false) {
-            const error = new Error(payload.message || "Request failed.");
-            error.status = response.status;
-            error.payload = payload;
-
-            if (response.status === 401 && auth && !allowUnauthorized) {
-                window.ZestMartUtils?.resetCurrentUser();
-                window.location.href = "/";
+        let lastParsedPayload = null;
+        const apiBaseUrls = config.apiBaseUrls || [window.location.origin];
+        for (const apiBaseUrl of apiBaseUrls) {
+            let response;
+            try {
+                response = await fetch(`${apiBaseUrl}${path}`, fetchOptions);
+            } catch (networkError) {
+                if (apiBaseUrl !== apiBaseUrls[apiBaseUrls.length - 1]) {
+                    continue;
+                }
+                if (demoApi?.isEnabled()) {
+                    return requestViaDemo(path, requestOptions);
+                }
+                throw networkError;
             }
 
-            throw error;
+            let payload;
+
+            try {
+                payload = await response.json();
+            } catch (_error) {
+                payload = {
+                    success: false,
+                    message: "Unable to parse server response.",
+                    data: {}
+                };
+            }
+
+            lastParsedPayload = payload;
+
+            if (shouldTryAnotherBase(response, payload) && apiBaseUrl !== apiBaseUrls[apiBaseUrls.length - 1]) {
+                continue;
+            }
+
+            if ((response.status === 502 || response.status === 503) && demoApi?.isEnabled()) {
+                return requestViaDemo(path, requestOptions);
+            }
+
+            if (!response.ok || payload.success === false) {
+                const error = new Error(payload.message || "Request failed.");
+                error.status = response.status;
+                error.payload = payload;
+
+                if (response.status === 401 && auth && !allowUnauthorized) {
+                    window.ZestMartUtils?.resetCurrentUser();
+                    window.location.href = "/";
+                }
+
+                throw error;
+            }
+
+            return payload;
         }
 
-        return payload;
+        if (demoApi?.isEnabled()) {
+            return requestViaDemo(path, requestOptions);
+        }
+
+        const error = new Error(lastParsedPayload?.message || "Request failed.");
+        error.payload = lastParsedPayload;
+        throw error;
     }
 
     window.ZestMartApi = {

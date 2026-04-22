@@ -16,6 +16,7 @@
 
         utils.bindLogoutButtons();
         utils.fillUserBadge("admin-user-name", "admin-user-role", user);
+        utils.showDemoModeNotice("admin-status");
 
         document.getElementById("product-form").addEventListener("submit", handleCreateProduct);
         document.getElementById("refresh-admin-products").addEventListener("click", loadProducts);

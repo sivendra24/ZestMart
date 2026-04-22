@@ -112,6 +112,31 @@ Required Twilio settings for real SMS delivery:
 - [Architecture](docs/architecture.md)
 - [API Docs](docs/api_docs.md)
 - [Database Schema](docs/database_schema.md)
-=======
-# ZestMart
->>>>>>> 2036df5d6be2cd4e6a81fa97365c940d2956e936
+
+## Netlify Deployment
+
+This repository can now be deployed to Netlify in two ways:
+
+1. Demo mode:
+   If no backend is attached, the site stays usable on Netlify with browser-local demo data for login, OTP, products, cart, admin, and delivery flows.
+2. Live backend mode:
+   Connect Netlify to a real Flask + MongoDB backend for shared production data.
+
+Production setup:
+
+1. Deploy the Flask backend to a Python-capable host such as Render, Railway, or a VPS.
+2. Keep `JWT_COOKIE_DOMAIN` empty on the backend.
+3. Set `JWT_COOKIE_SECURE=true` on the backend when using HTTPS.
+4. In Netlify, set the environment variable `ZESTMART_BACKEND_URL` to your live backend URL, for example `https://your-backend.example.com`.
+5. Redeploy Netlify after setting the environment variable.
+
+Netlify now uses:
+
+- [netlify.toml](netlify.toml) to publish the `frontend/` directory and map clean routes like `/student`
+- [netlify/functions/backend-proxy.js](netlify/functions/backend-proxy.js) to proxy `/api/*` and `/uploads/*` requests to the backend
+
+Demo credentials on a frontend-only Netlify deploy:
+
+- Admin: `admin001` / `Admin@123`
+- Delivery: `delivery001` / `Delivery@123`
+- Student: `9876543210` / `Student@123`

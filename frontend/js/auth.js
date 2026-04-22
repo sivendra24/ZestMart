@@ -7,6 +7,7 @@
         await utils.redirectIfAuthenticated();
         bindTabs();
         bindForms();
+        utils.showDemoModeNotice("page-status");
     });
 
     function bindTabs() {

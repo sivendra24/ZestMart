@@ -19,6 +19,7 @@
         utils.bindLogoutButtons();
         utils.fillUserBadge("student-user-name", "student-user-role", user);
         utils.populateRoleLinks("student-nav-links", user);
+        utils.showDemoModeNotice("student-status");
         const welcomeName = document.getElementById("student-welcome-name");
         if (welcomeName) {
             welcomeName.textContent = user.name || user.userId || user.phone || "Shopper";

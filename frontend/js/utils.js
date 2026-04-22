@@ -225,6 +225,17 @@
         return value.charAt(0).toUpperCase() + value.slice(1);
     }
 
+    function showDemoModeNotice(target) {
+        if (!window.ZestMartDemoApi?.isActive()) {
+            return;
+        }
+        showMessage(
+            target,
+            "Demo mode is active on this deployment. Data is stored in this browser so the site remains usable on Netlify without a separate backend.",
+            "info"
+        );
+    }
+
     window.ZestMartUtils = {
         bindLogoutButtons,
         capitalize,
@@ -244,6 +255,7 @@
         resetCurrentUser,
         setButtonBusy,
         setCurrentUser,
+        showDemoModeNotice,
         showMessage,
         statusPill
     };

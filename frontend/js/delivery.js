@@ -20,6 +20,7 @@
         utils.bindLogoutButtons();
         utils.fillUserBadge("delivery-user-name", "delivery-user-role", user);
         utils.populateRoleLinks("delivery-nav-links", user);
+        utils.showDemoModeNotice("delivery-status");
 
         document.getElementById("refresh-delivery-orders").addEventListener("click", loadDashboard);
         document.getElementById("pending-order-list").addEventListener("click", handlePendingActions);
