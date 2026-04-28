@@ -95,7 +95,6 @@ class OrderService:
             )
             insert_result = self.orders_collection.insert_one(order_document)
             order_document["_id"] = insert_result.inserted_id
-            return OrderModel.serialize(order_document)
         except Exception:
             for reserved_item in reserved_stock:
                 self.products_collection.update_one(
@@ -103,6 +102,14 @@ class OrderService:
                     {"$inc": {"stock": reserved_item["quantity"]}},
                 )
             raise
+
+        if actor["role"] == "student":
+            self.users_collection.update_one(
+                {"_id": self._parse_object_id(actor["id"], "Invalid user ID.")},
+                {"$set": {"address": delivery_address, "updatedAt": utcnow()}},
+            )
+
+        return OrderModel.serialize(order_document)
 
     def get_orders(self, actor):
         query = {}
